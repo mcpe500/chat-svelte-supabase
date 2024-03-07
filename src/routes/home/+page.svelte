@@ -1,93 +1,67 @@
-<script>
-    import { onMount } from "svelte";
-    import { focusTrap } from "@skeletonlabs/skeleton";
-    let loading = true;
-    let isFocused = true;
-    onMount(async () => {
-        // Simulate network request
-        loading = false;
-    });
+<!-- LoginPage.svelte -->
+<script lang="ts">
+    let email: string = "";
+    let password = "";
+    let isLoading = false;
+
+    const handleLogin = async () => {
+        isLoading = true;
+        try {
+            const data = "";
+            console.log("Login successful:", data);
+        } catch (error) {
+            console.error("Login failed:", error);
+        } finally {
+            isLoading = false;
+        }
+    };
 </script>
 
-<main>
-    {#if loading}
-        <!-- Skeleton UI -->
-        <div class="skeleton-input"></div>
-        <div class="skeleton-input"></div>
-        <div class="skeleton-button"></div>
-    {:else}
-        <!-- Actual Login Form -->
-
-        <form use:focusTrap={isFocused}>
-            <input
-                data-focusindex="1"
-                type="text"
-                placeholder="Name"
-                value="Bob"
-            />
-            <!-- Email will be the first focused -->
-            <input data-focusindex="0" type="email" placeholder="Email" />
-            <button class="btn variant-filled-primary">Submit</button>
-        </form>
-    {/if}
+<main class="container mx-auto p-8">
+    <div class="max-w-md mx-auto">
+        <div class="card p-8 shadow-xl">
+            <header class="text-center mb-6">
+                <h1 class="text-3xl font-bold">Login</h1>
+            </header>
+            <div>
+                <div class="input-group mb-4">
+                    <span class="input-group-shim">
+                        <i class="lucide lucide-mail" />
+                    </span>
+                    <input
+                        type="email"
+                        id="email"
+                        class="input"
+                        placeholder="Enter your email"
+                        bind:value={email}
+                        required
+                    />
+                </div>
+                <div class="input-group mb-6">
+                    <span class="input-group-shim">
+                        <i class="lucide lucide-lock" />
+                    </span>
+                    <input
+                        type="password"
+                        id="password"
+                        class="input"
+                        placeholder="Enter your password"
+                        bind:value={password}
+                        required
+                    />
+                </div>
+                <button
+                    class="btn variant-filled-primary w-full"
+                    disabled={isLoading}
+                    on:click={handleLogin}
+                >
+                    {#if isLoading}
+                        <span class="animate-pulse">Loading...</span>
+                    {:else}
+                        Login
+                    {/if}
+                </button>
+            </div>
+        </div>
+    </div>
 </main>
-
-<!-- <style>
-    main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0;
-    }
-
-    .skeleton-input,
-    input {
-        height: 40px;
-        width: 200px;
-        margin: 10px 0;
-        background: #ddd;
-        border-radius: 5px;
-    }
-
-    .skeleton-button,
-    button {
-        height: 50px;
-        width: 100px;
-        margin: 10px 0;
-        background: #ddd;
-        border-radius: 5px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding: 20px;
-        background-color: white;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-        font-size: 0.9em;
-        color: #333;
-    }
-
-    input {
-        padding: 10px;
-        border: none;
-    }
-
-    button {
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-</style> -->
